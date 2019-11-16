@@ -71,7 +71,7 @@ if (abs(cameraDepth-cameraDepth2) < 100) {
   if (cameraDepth <= maxDist) {
   valLeft = map(cameraDepth, 0, maxDist, 50, 255);
   valConvertLeft = (int)valLeft;
-  myPort.write(valConvertLeft);*/
+  myPort.write(valConvertLeft);
   }
 }
 
