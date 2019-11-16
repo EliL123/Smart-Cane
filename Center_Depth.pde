@@ -82,7 +82,7 @@ if (abs(cameraDepthRight-cameraDepth2Right) < 100) {
   valConvertRight = (int)valRight;
   myPort.write(valConvertRight);
   }
-}
+}*/
   
   fill(0, 255, 255);
   textSize(20);
