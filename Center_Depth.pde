@@ -21,7 +21,10 @@ boolean switchVar = true;
 
 // depth variables
 float valLeft, valRight;
-int valConvertLeft, valConvertRight;
+int valConvertLeft, valConvertRight, readDepth;
+int maxDepth = 0;
+int width = 640;
+int height = 480;
 
 void setup()
 {
@@ -44,8 +47,19 @@ void draw()
 
   // show color image
   image(camera.getColorImage(), 0, 0);
+
+for(int x=0;x < width;x++){
+	for(int y=0;y < height;y++){
+		readDepth = camera.getDepth(x,y);
+		if(readDepth > maxDepth){
+			maxDepth = readDepth;
+		}
+	}
+}
+myPort.write(maxDepth);
+
   
-// get the first camera depth from left and right
+/*// get the first camera depth from left and right
   int cameraDepth = camera.getDepth(160, 240);
   int cameraDepthRight = camera.getDepth(480,240);
     delay(10); 
@@ -57,8 +71,9 @@ if (abs(cameraDepth-cameraDepth2) < 100) {
   if (cameraDepth <= maxDist) {
   valLeft = map(cameraDepth, 0, maxDist, 50, 255);
   valConvertLeft = (int)valLeft;
-  myPort.write(valConvertLeft);
+  myPort.write(valConvertLeft);*/
   }
+}
 
 // map the values for right
 if (abs(cameraDepthRight-cameraDepth2Right) < 100) {
@@ -67,6 +82,7 @@ if (abs(cameraDepthRight-cameraDepth2Right) < 100) {
   valConvertRight = (int)valRight;
   myPort.write(valConvertRight);
   }
+}
   
   fill(0, 255, 255);
   textSize(20);
@@ -120,3 +136,5 @@ void displayText(String text){
   //int cameraDepth = 260;
   }
   }*/
+
+
