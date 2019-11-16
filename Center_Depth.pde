@@ -19,6 +19,10 @@ int range4 = 200;
 int maxDist = 2000;
 boolean switchVar = true;
 
+// depth variables
+float valLeft, valRight;
+int valConvertLeft, valConvertRight;
+
 void setup()
 {
   size(640, 480);
@@ -41,24 +45,44 @@ void draw()
   // show color image
   image(camera.getColorImage(), 0, 0);
   
+// get the first camera depth from left and right
   int cameraDepth = camera.getDepth(160, 240);
   int cameraDepthRight = camera.getDepth(480,240);
     delay(10); 
+// get the second camera depth from left and right
   int cameraDepth2 = camera.getDepth(160, 240);
   int cameraDepth2Right = camera.getDepth(480,240);
-  depthSense(cameraDepth, cameraDepth2);
-  depthSense(cameraDepthRight, cameraDepth2Right);
+// map the values for left
+if (abs(cameraDepth-cameraDepth2) < 100) {
+  if (cameraDepth <= maxDist) {
+  valLeft = map(cameraDepth, 0, maxDist, 50, 255);
+  valConvertLeft = (int)valLeft;
+  myPort.write(valConvertLeft);
+  }
+
+// map the values for right
+if (abs(cameraDepthRight-cameraDepth2Right) < 100) {
+  if (cameraDepthRight <= maxDist) {
+  valRight = map(cameraDepthRight, 0, maxDist, 50, 255);
+  valConvertRight = (int)valRight;
+  myPort.write(valConvertRight);
+  }
   
   fill(0, 255, 255);
   textSize(20);
   textAlign(RIGHT, BOTTOM);
-  text(cameraDepth,320, 240);
+  text(cameraDepth,160, 240);
+
+  fill(0, 255, 255);
+  textSize(20);
+  textAlign(RIGHT, BOTTOM);
+  text(cameraDepthRight,480, 240);
   
   senseDepth(cameraDepth);
   
-   
+   senseDepth(cameraDepthRight);
 
-  System.out.println(myPort.read());
+ // System.out.println(myPort.read());
   
 }
 
@@ -87,7 +111,7 @@ void displayText(String text){
     text(text, mouseX, mouseY);
 }
 
-void depthSense(int camDepthInit, int camDepth2){
+/*void depthSense(int camDepthInit, int camDepth2){
   if (abs(camDepthInit-camDepth2) < 100) {
   if (camDepthInit <= maxDist) {
   float val = map(camDepthInit, 0, maxDist, 50, 255);
@@ -95,4 +119,4 @@ void depthSense(int camDepthInit, int camDepth2){
   myPort.write(val1);
   //int cameraDepth = 260;
   }
-  }
+  }*/
