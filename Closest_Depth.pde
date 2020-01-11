@@ -74,6 +74,7 @@ void draw()
   textSize(40);
   textAlign(RIGHT, BOTTOM);
   circle(closestXValue, closestYValue, 10);
+  // print depth in millimeters, side its on, at location of closest depth
   text(maxDepth + " " + side, closestXValue, closestYValue);
   
   // reset back to 1000 to refind closest value
