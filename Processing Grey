@@ -1,0 +1,68 @@
+import ch.bildspur.realsense.*;
+
+RealSenseCamera camera = new RealSenseCamera(this);
+
+
+//variables
+int range1 = 800;
+int range2 = 600;
+int range3 = 400;
+int range4 = 200;
+boolean switchVar = true; 
+
+void setup()
+{
+  size(640, 480);
+  
+  // width, height, fps, depth-stream, color-stream
+  camera.start(640, 480, 30, true, true);
+}
+
+void draw()
+{
+  background(0);
+  
+  // read frames
+  camera.readFrames();
+  
+  // create grayscale image form depth buffer
+  // min and max depth
+  camera.createDepthImage(0, 5000);   
+  
+  // show color image
+  image(camera.getDepthImage(), 0, 0);
+  
+  int cameraDepth = camera.getDepth(mouseX, mouseY);
+  
+  fill(255,0,0);
+  textSize(40);
+  textAlign(RIGHT, BOTTOM);
+  text(cameraDepth, mouseX, mouseY);
+  
+  senseDepth(cameraDepth);
+  
+  
+}
+void senseDepth(int camDepth){
+  if(camDepth < range4){ 
+    fill(255,0,0);
+    textSize(40);
+    textAlign(LEFT,BOTTOM);
+    text("WAY TOO CLOSE", mouseX, mouseY);
+  } else if(camDepth > range4 && camDepth <= range3) { 
+    fill(255,0,0);
+    textSize(40);
+    textAlign(LEFT,BOTTOM);
+    text("TOO CLOSE", mouseX, mouseY);
+  } else if(camDepth > range3 && camDepth <= range2) { 
+    fill(255,0,0);
+    textSize(40);
+    textAlign(LEFT,BOTTOM);
+    text("CLOSE", mouseX, mouseY);
+  } else if(camDepth > range2 && camDepth <= range1) { 
+    fill(255,0,0);
+    textSize(40);
+    textAlign(LEFT,BOTTOM);
+    text("KINDA CLOSE", mouseX, mouseY);
+  }
+}
