@@ -1,0 +1,17 @@
+int val;
+int bright;
+void setup() { 
+   pinMode(8, OUTPUT); // Set pin as OUTPUT
+   pinMode(9, OUTPUT); // Set pin as OUTPUT 
+   pinMode(10, OUTPUT); // Set pin as OUTPUT 
+   SerialUSB.begin(9600); // Start serial communication at 9600 bps 
+}
+void loop() {
+ //  if (SerialUSB.available()) 
+    val = SerialUSB.read(); // read it and store it in val
+    bright = 255-val;
+    analogWrite(8, bright); 
+    analogWrite(9, bright); 
+    analogWrite(10, bright); 
+    delay(5);
+}
