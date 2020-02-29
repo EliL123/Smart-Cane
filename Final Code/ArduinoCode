@@ -1,0 +1,40 @@
+int actualVal = 0;
+int val1; 
+int val2;
+int val3;
+int bright;
+
+
+void setup() { 
+   pinMode(8, OUTPUT); // Set pin as OUTPUT
+   pinMode(9, OUTPUT); // Set pin as OUTPUT 
+   pinMode(13, OUTPUT); // Set pin as OUTPUT 
+   Serial.begin(19200); // Start serial communication at 9600 bps 
+
+}
+void loop() {
+  
+   if (Serial.available() ){ 
+    val1 = Serial.read();
+actualVal = removeOutlier(val1, val2, val3, 50);
+bright = 255 - actualVal;
+        analogWrite(8, bright); 
+        analogWrite(9, 255); 
+        analogWrite(13, bright); 
+val3 = val2;
+val2 = val1;
+      }
+    delay(1);
+}
+
+int removeOutlier(int one, int two, int three, int limit) {
+    if(abs(one - two) > limit && abs(one - three) > limit) {
+      return (two+three)/2;
+    } else if(abs(two - one) > limit && abs(two - three) > limit) {
+      return (one+three)/2;
+    } else if(abs(three - one) > limit && abs(three - two) > limit) {
+      return (one+two)/2;
+    } else {
+      return (one+two+three)/3;
+    }
+  }
